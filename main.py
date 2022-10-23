@@ -6,7 +6,7 @@ import socket
 import ipaddress
 # We need to create regular expressions to ensure that the input is correctly formatted.
 import re
-
+from urllib.request import urlopen
 # Regular Expression Pattern to extract the number of ports you want to scan.
 # You have to specify <lowest_port_number>-<highest_port_number> (ex 10-100)
 port_range_pattern = re.compile("([0-9]+)-([0-9]+)")
@@ -37,18 +37,23 @@ print("* GitHub : https://github.com/Dungyy          *")
 print("***********************************************")
 
 open_ports = []
+
+
+
+# SETUP where to look for IP 
+url = 'http://checkip.dyndns.com'
+
+# OPen url and print out IP
+
+request = urlopen(url).read().decode('utf-8')
+
+ourIP = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", request)
+ourIP = str(ourIP)
+
+print("\nYour PUBLIC IP Address is:  " + ourIP)
+
+
 # Ask user to input the ip address they want to scan.
-
-hostname = socket.gethostname()
-IP = socket.gethostbyname(hostname)
-
-IPAddr = socket.gethostbyname(hostname)
-
-print("\nYour Current Device Name is:  " + hostname)
-print("Your current IP Address is:  " + IPAddr)
-
-
-
 while True:
     ip_add_entered = input("\nEnter any IP address to scan: ")
     # If we enter an invalid ip address the try except block will go to the except block and say you entered an invalid ip address.
